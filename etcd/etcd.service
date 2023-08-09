@@ -1,0 +1,10 @@
+[Unit]
+Description=etcd - Distributed key-value store
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/etcd --data-dir=data.etcd --name k8s-master --initial-advertise-peer-urls http://192.168.31.110:2380 --listen-peer-urls http://192.168.31.110:2380 --advertise-client-urls http://192.168.31.110:2379 --listen-client-urls http://192.168.31.110:2379 --discovery https://discovery.etcd.io/868c3e9604a0459d6079b2164c613941 --initial-cluster-state existing --initial-cluster-token 583c52f206bb2ffc3bfac22d0026956b
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

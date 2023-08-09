@@ -1,0 +1,37 @@
+curl https://discovery.etcd.io/new?size=3
+https://discovery.etcd.io/67f31fec625ca701297814b4372ee8f9
+
+# grab this token
+TOKEN=583c52f206bb2ffc3bfac22d0026956b
+CLUSTER_STATE=new
+NAME_1=k8s-master
+NAME_2=k8s-slave-1
+NAME_3=k8s-slave-2
+HOST_1=192.168.31.110
+HOST_2=192.168.31.111
+HOST_3=192.168.31.112
+DISCOVERY=https://discovery.etcd.io/70205b4ed49daace1d03b7cef80e2d9e#
+
+THIS_NAME=${NAME_1}
+THIS_IP=${HOST_1}
+etcd --data-dir=data.etcd --name ${THIS_NAME} \
+	--initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 \
+	--advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 \
+	--discovery ${DISCOVERY} \
+	--initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN}
+
+THIS_NAME=${NAME_2}
+THIS_IP=${HOST_2}
+etcd --data-dir=data.etcd --name ${THIS_NAME} \
+	--initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 \
+	--advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 \
+	--discovery ${DISCOVERY} \
+	--initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN}
+
+THIS_NAME=${NAME_3}
+THIS_IP=${HOST_3}
+etcd --data-dir=data.etcd --name ${THIS_NAME} \
+	--initial-advertise-peer-urls http://${THIS_IP}:2380 --listen-peer-urls http://${THIS_IP}:2380 \
+	--advertise-client-urls http://${THIS_IP}:2379 --listen-client-urls http://${THIS_IP}:2379 \
+	--discovery ${DISCOVERY} \
+	--initial-cluster-state ${CLUSTER_STATE} --initial-cluster-token ${TOKEN}
